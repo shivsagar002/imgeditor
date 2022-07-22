@@ -44,6 +44,23 @@
                 <img src="Img1.jpeg" alt="preview-img">
             </div>
         </div>
+        <div class="extrafilter">
+            <input type="checkbox" name="checkop" id="checkop"><label class="extrafilter" for="checkop"> More Editing Tools</label>
+            <div class="extraoptions">
+                <div class="resize">
+                    <div class="width">
+                        <label for="width">Width</label><input type="number" name="width" id="width">
+                    </div>
+                    <div class="height">
+                        <label for="height">Height</label><input type="number" name="height" id="height">
+                    </div>
+                </div>
+                <div class="quality">
+                    <div class="qualityindex"><p>Quality</p><p id="qualityindexvalue">80%</p></div>
+                    <div class="qualityvalue"><input type="range" id="qualityvalue" value="80" min="0" max="100"></div>
+                </div>
+            </div>
+        </div>
         <div class="controls">
             <button class="reset-filter">Reset Filters</button>
             <div class="row">

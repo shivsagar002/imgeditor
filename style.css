@@ -6,6 +6,7 @@
     --primarycolor:#fff;
     --buttoncolor:#5372F0;
     --buttoncolor2:#6C757D;
+    --bordercolor:#ccc;
 }
 *{
   margin: 0;
@@ -30,6 +31,7 @@ body{
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 .container.disable .editor-panel,
+.container.disable .extrafilter,
 .container.disable .controls .reset-filter,
 .container.disable .controls .save-img{
   opacity: 0.5;
@@ -49,7 +51,7 @@ body{
   padding: 15px 20px;
   width: 280px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--bordercolor);
 }
 .editor-panel .title{
   display: block;
@@ -113,6 +115,73 @@ body{
   color: var(--primarycolor);
   background: var(--buttoncolor);
   border-color: var(--buttoncolor);
+}
+.extrafilter{
+  margin-bottom: 30px;
+  font-size: 14px;
+  cursor: pointer;
+}
+#checkop{
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+#checkop:checked ~ .extraoptions{
+  display: flex;
+}
+.extraoptions{
+  width: 100%;
+  display: none;
+  align-items: center;
+  border: 1px solid var(--bordercolor);
+  border-radius: 5px;
+  /* justify-content: space-between; */
+  padding: 10px 0px;
+}
+.resize,.quality{
+  width: 50%;
+}
+
+/* code for hide number up-down arrow */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.width,.height{
+  margin: 10px 5px;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+.width label{
+  margin-right: 20px;
+}
+.height label{
+  margin-right: 15px;
+}
+#width,#height{
+  width: 75px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 2px;
+  text-align: center;
+}
+.quality{
+  max-width: 400px;
+}
+.qualityindex{
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+.qualityvalue input{
+  width: 80%;
+  height: 5px;
+  accent-color: var(--buttoncolor);
 }
 .wrapper .preview-img{
   flex-grow: 1;
@@ -207,5 +276,16 @@ footer h4{
   .reset-filter{
     /* margin-bottom: 10px; */
     margin-right: 0px;
+  }
+  .extraoptions{
+    flex-direction: column;
+  }
+  .resize,.quality{
+    width: 100%;
+  }
+  .quality{
+    width: 100%;
+    margin-left: 40px;
+    margin-top: 20px;
   }
 }

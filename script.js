@@ -7,10 +7,16 @@ rotateOptions = document.querySelectorAll(".rotate button"),
 previewImg = document.querySelector(".preview-img img"),
 resetFilterBtn = document.querySelector(".reset-filter"),
 chooseImgBtn = document.querySelector(".choose-img"),
-saveImgBtn = document.querySelector(".save-img");
+saveImgBtn = document.querySelector(".save-img"),
+ImgWidth = document.querySelector("#width"),
+ImgHeight = document.querySelector("#height"),
+ImgQuality = document.querySelector("#qualityvalue"),
+qualityindexvalue = document.querySelector("#qualityindexvalue")
+const MIME_TYPE = "image/jpeg";
 
 let brightness = "100", saturation = "100", inversion = "0", grayscale = "0";
 let rotate = 0, flipHorizontal = 1, flipVertical = 1;
+let QUALITY = "0.8";
 
 const loadImage = () => {
     let file = fileInput.files[0];
@@ -20,6 +26,33 @@ const loadImage = () => {
         resetFilterBtn.click();
         document.querySelector(".container").classList.remove("disable");
     });
+}
+
+let MAX_WIDTH = previewImg.naturalWidth,
+    MAX_HEIGHT =previewImg.naturalHeight;
+
+
+ const changewidth = () => {
+    if (ImgWidth.value != null) {
+        MAX_WIDTH = ImgWidth.value;
+    }else{
+        MAX_WIDTH = previewImg.naturalWidth;
+    }
+ }   
+
+ const changeheight = () => {
+    if (ImgHeight.value != null) {
+        MAX_HEIGHT = ImgHeight.value;
+    }else {
+        MAX_HEIGHT =previewImg.naturalHeight;
+    }
+ }
+    
+
+const changequality = () => {
+    ImgQuality.max = "100";
+    qualityindexvalue.innerText = `${ImgQuality.value}%`
+    QUALITY = ImgQuality.value/100;
 }
 
 const applyFilter = () => {
@@ -87,6 +120,10 @@ rotateOptions.forEach(option => {
 const resetFilter = () => {
     brightness = "100"; saturation = "100"; inversion = "0"; grayscale = "0";
     rotate = 0; flipHorizontal = 1; flipVertical = 1;
+    ImgQuality.value = "80";
+    MAX_WIDTH = previewImg.naturalWidth;
+    MAX_HEIGHT =previewImg.naturalHeight;
+    ImgQuality
     filterOptions[0].click();
     applyFilter();
 }
@@ -94,8 +131,8 @@ const resetFilter = () => {
 const saveImage = () => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    canvas.width = previewImg.naturalWidth;
-    canvas.height = previewImg.naturalHeight;
+    canvas.width = MAX_WIDTH;
+    canvas.height = MAX_HEIGHT;
     
     ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`;
     ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -104,13 +141,23 @@ const saveImage = () => {
     }
     ctx.scale(flipHorizontal, flipVertical);
     ctx.drawImage(previewImg, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
-    
+    canvas.toBlob(
+        (blob) => {
+          // Handle the compressed image. es. upload or save in local state
+          displayInfo('Original file', file);
+          displayInfo('Compressed file', blob);
+        },
+        MIME_TYPE,
+        QUALITY
+      );
     const link = document.createElement("a");
     link.download = "image.jpg";
     link.href = canvas.toDataURL();
     link.click();
 }
-
+ImgWidth.addEventListener("input", changewidth);
+ImgHeight.addEventListener("input", changeheight);
+ImgQuality.addEventListener("input", changequality);
 filterSlider.addEventListener("input", updateFilter);
 resetFilterBtn.addEventListener("click", resetFilter);
 saveImgBtn.addEventListener("click", saveImage);
